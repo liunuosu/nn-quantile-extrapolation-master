@@ -1,0 +1,55 @@
+# =========================================================================
+# Distribution:
+# -------------------------
+# burr
+#   - evi: float  # extreme value index
+#   - rho: list  # \bar rho_j order parameter
+# ////////////////////////////
+# nhw
+#   - evi: float  # extreme value index
+#   - rho: list  # \bar rho_j order parameter
+# ////////////////////////////
+# frechet
+#   - evi: float  # extreme value index
+# ////////////////////////////
+# fisher
+#   - evi: float  # extreme value index
+# ////////////////////////////
+# invgamma
+#   - evi: float  # extreme value index
+# ////////////////////////////
+# gpd
+#   - evi: float  # extreme value index
+# ////////////////////////////
+# ////////////////////////////
+# student
+#   - evi: float  # extreme value index
+# ////////////////////////////
+
+# -------------------------
+# Optimizers:
+# -------------------------
+# adam, rmsp, sgd
+
+# Losses:
+# -------------------------
+# l1, l2
+
+# ==========================================================================
+
+data:
+  distribution: HS&P500 # {VIX, VXD, VXN, HS&P500, HDJIA, HNASDAQ}
+
+training:
+  n_epochs: !!int 500
+  batch_size: !!int 1024
+  loss: "l1"
+  verbose: !!int 1  # save parameters and compute metrics every X epochs
+  alpha: !!float 0.025
+
+model:
+  trunc: !!int 5 # truncation J>1. Refers to the number of neurons: J(J-1)/2
+  optimizer: adam
+  lr: !!float 1e-3
+  lamb: !!float 0.  # regularization parameter
+

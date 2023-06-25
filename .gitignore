@@ -1,0 +1,28 @@
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+
+# IDE #
+################
+.vscode/
+.idea/
+__pychache__
+.ipynb_checkpoints/
+.Rhistory
+
+# Directories #
+################
+data/
+backup/
+VM/
+paper/
+
+# Files #
+##########
+debug.py
+
+# Extension #
+*.csv
+*.xlsx

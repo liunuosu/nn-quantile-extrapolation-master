@@ -1,0 +1,60 @@
+# =========================================================================
+# Distribution:
+# -------------------------
+# burr
+#   - evi: float  # extreme value index
+#   - rho: list  # \bar rho_j order parameter
+# ////////////////////////////
+# nhw
+#   - evi: float  # extreme value index
+#   - rho: list  # \bar rho_j order parameter
+# ////////////////////////////
+# frechet
+#   - evi: float  # extreme value index
+# ////////////////////////////
+# fisher
+#   - evi: float  # extreme value index
+# ////////////////////////////
+# invgamma
+#   - evi: float  # extreme value index
+# ////////////////////////////
+# gpd
+#   - evi: float  # extreme value index
+# ////////////////////////////
+# ////////////////////////////
+# student
+#   - evi: float  # extreme value index
+# ////////////////////////////
+
+# -------------------------
+# Optimizers:
+# -------------------------
+# adam, rmsp, sgd
+
+# Losses:
+# -------------------------
+# l1, l2
+
+# ==========================================================================
+
+data:
+  distribution: fisher  # {burr, frechet, fisher, invgamma, gpd, nhw, student}
+  params:
+    evi: !!float 1.  # extreme value index (gamma)
+    rho: [-0.25]  # second order parameter. For laws {frechet, fisher, invgamma, gpd, student}, this parameter will not be considered
+  n_data: !!int 500  # sample size
+  percentile: !!float 0.  # percentile of data for training (ie if 0, train on all available) (thresholding)
+
+training:
+  n_epochs: !!int 25
+  batch_size: !!int 1024
+  loss: "l1"
+  verbose: !!int 1  # save parameters and compute metrics every X epochs
+  replications: !!int 1
+
+model:
+  trunc: !!int 4  # truncation J>1. Refers to the number of neurons: J(J-1)/2
+  optimizer: adam
+  lr: !!float 1e-3
+  lamb: !!float 0.  # regularization parameter
+
