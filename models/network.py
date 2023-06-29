@@ -203,7 +203,7 @@ class ExtrapolateNN():
 
             k_anchor = np.arange(2, n_data)  # k=2,...,n-1
             q_nn = self.extrapolate(alpha=EXTREME_ALPHA, k_anchor=k_anchor, X_order=X_order).ravel()  # extrapolated quantile neural network
-            X = q_nn[13:int(3*n_data/4) + 1]  # for k=15,...,375 (i=13,...,373) HARD CODE
+            X = q_nn[int(0.05*n_data):int(0.90*n_data) + 1]  # for k=15,...,375 (i=13,...,373) HARD CODE
 
             self.running_variance = compute_criteria(X, "variance")  # variance
             self.running_r_variance = compute_criteria(X, "r_variance")  # relative variance

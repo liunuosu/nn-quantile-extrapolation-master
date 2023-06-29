@@ -449,16 +449,16 @@ def real_loglog_plot(saved=False):
     fig, axes = plt.subplots(1, 1, figsize=(15, 7), sharex=False, squeeze=False)  # 3 plots: quantile, var, mse
 
     dataset = pd.read_csv("data_real/Volatility.csv")
-    VIX = dataset["VIX"].values
+    VIX = dataset["HNASDAQ"].values
     VIX = np.expand_dims(VIX, axis=1)
     X_order = np.sort(VIX, axis=0)
     n_data = len(X_order)
-    K_STAR = 245
+    K_STAR = 1355
     anchor_points = np.arange(2, n_data)  # 2, ..., n-1
     i_points = np.arange(1, K_STAR)
     y = np.log(X_order[-i_points]) - np.log(X_order[-K_STAR])
     X = np.log(K_STAR / i_points)
-    EXTREME_ALPHA = 1 / n_data
+    EXTREME_ALPHA = 0.01
     evt_estimators = ExtremeQuantileEstimator(X=X_order, alpha=EXTREME_ALPHA)
 
     hill_gammas = [evt_estimators.hill(k_anchor) for k_anchor in anchor_points]

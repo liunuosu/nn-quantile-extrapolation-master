@@ -38,17 +38,17 @@
 # ==========================================================================
 
 data:
-  distribution: HS&P500 # {VIX, VXD, VXN, HS&P500, HDJIA, HNASDAQ}
+  distribution: VIX # {VIX, VXD, VXN, HS&P500, HDJIA, HNASDAQ}
 
 training:
   n_epochs: !!int 500
   batch_size: !!int 1024
   loss: "l1"
   verbose: !!int 1  # save parameters and compute metrics every X epochs
-  alpha: !!float 0.025
+  alpha: !!float 0.005
 
 model:
-  trunc: !!int 5 # truncation J>1. Refers to the number of neurons: J(J-1)/2
+  trunc: !!int 3 # truncation J>1. Refers to the number of neurons: J(J-1)/2
   optimizer: adam
   lr: !!float 1e-3
   lamb: !!float 0.  # regularization parameter
