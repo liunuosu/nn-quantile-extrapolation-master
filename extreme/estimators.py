@@ -694,6 +694,7 @@ def evt_estimators_real(distribution, alpha, trunc, metric="median", return_full
     data_sampler = DataLoader()
     data, X_order = data_sampler.load_real_data(distribution)
     anchor_points = np.arange(2, len(X_order))  # 1, ..., n-1
+    print(anchor_points)
     EXTREME_ALPHA = alpha
 
     try:

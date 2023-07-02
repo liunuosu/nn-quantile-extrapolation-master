@@ -1,7 +1,7 @@
 from .distributions import Burr, GeneralizedHeavyTailed, Frechet, InverseGamma, Fisher, GPD, Student, NHW
 import numpy as np
 from pathlib import Path
-
+from extension import GARCH
 
 
 dict_distributions = {"burr": Burr, "invgamma": InverseGamma, "frechet": Frechet, "fisher": Fisher, "gpd": GPD,
@@ -49,12 +49,13 @@ class DataLoader():
 
         dataset = pd.read_csv("data_real/Volatility_train.csv")
         data = dataset[column].values
+        #returns, volatility = GARCH()
+        #data = volatility
         data = np.expand_dims(data, axis=1)
-
         X_order = np.sort(data, axis=0)  # X_{1,n}, ..., X_{n,n}
 
         X_order_train = X_order
-        threshold_K = int(len(dataset) - (len(dataset) * self.percentile)) - 1  # threshold K < n (integer)
+        threshold_K = int(len(data) - (len(data) * self.percentile)) - 1  # threshold K < n (integer)
 
         triu_idx = np.triu_indices(threshold_K, 1)  # get the indexes of an upper triangular matrix (without the diag)
 
@@ -69,7 +70,7 @@ class DataLoader():
 
         y = np.apply_along_axis(log_spacings, axis=1, arr=list_indices)
         x1 = np.float32(np.log(k_idx / i_idx).reshape(-1, 1))
-        x2 = np.float32(np.log(len(dataset) / k_idx).reshape(-1, 1))
+        x2 = np.float32(np.log(len(data) / k_idx).reshape(-1, 1))
 
         return np.concatenate([x1, x2, y], axis=1), X_order_train
 

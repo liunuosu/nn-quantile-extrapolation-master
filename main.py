@@ -6,11 +6,16 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 from extreme.data_management import DataLoader
-from extension import christoffersen, binomial_test
+from extension import christoffersen, binomial_test, GARCH
 
-print(christoffersen("VXD", quantile=25.389, alpha=0.025))
+# Run the training results by running run_realdata.py
+# The parameters can be adjusted in config_file_real.yaml
+# Results are stored in ckpt_real
 
+# Run the test here, kupiec test results also printed
+# When you want to run the GARCH, uncomment the two comments in extreme.data_management
+# and uncomment the two comments in extension.init
 
-p_value = binomial_test(actual_violations, expected_violations, confidence_level)
-print("Binomial test p-value:", p_value)
+# First is the distribution, second input is the quantile, and third input the alpha
+christoffersen("VIX", 0.421, 0.05)
 

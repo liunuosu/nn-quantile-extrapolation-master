@@ -3,11 +3,47 @@ import math
 from scipy import stats
 from scipy.stats import binom_test
 import numpy as np
+from arch import arch_model
 
+
+def GARCH():
+    # Set the seed for reproducibility
+    np.random.seed(0)
+
+    # Define the GARCH parameters
+    omega = 0.01
+    alpha = 0.1
+    beta = 0.8
+
+    # Define the number of observations to simulate
+    n_obs = 1002
+
+    # Create empty arrays to store the simulated returns and volatility
+    returns = np.zeros(n_obs)
+    volatility = np.zeros(n_obs)
+
+    # Simulate the GARCH process
+    garch_model = arch_model(None, vol='GARCH', p=1, q=1)
+    for i in range(n_obs):
+        if i == 0:
+            returns[i] = np.random.normal(0, 1)  # Initial return
+            volatility[i] = np.sqrt(omega / (1 - alpha - beta))  # Initial volatility
+        else:
+            conditional_volatility = np.sqrt(omega + alpha * returns[i - 1] ** 2 + beta * volatility[i - 1] ** 2)
+            returns[i] = conditional_volatility * np.random.normal(0, 1)
+            volatility[i] = conditional_volatility
+
+    # Print the simulated returns and volatility
+
+
+    return returns, volatility
 
 def christoffersen(column, quantile, alpha):
     dataset = pd.read_csv("data_real/Volatility_test.csv")
     data = dataset[column].values
+
+    #returns, volatility = GARCH()
+    #data = volatility[501:1001]
 
     markov_chain = []
 
@@ -52,8 +88,8 @@ def christoffersen(column, quantile, alpha):
     print("T10: " + str(T10))
     print("T11: " + str(T11))
 
-    #pi01_hat = T01/(T00 + T01)
-    #pi11_hat = T11/(T10 + T11)
+    pi01_hat = T01/(T00 + T01)
+    pi11_hat = T11/(T10 + T11)
 
     #print("pi01_hat " + str(pi01_hat))
     #print("pi11_hat " + str(pi11_hat))
@@ -68,9 +104,9 @@ def christoffersen(column, quantile, alpha):
 
     # INDEPENDENCE LIKELIHOOD
     L_0 = pow((1-cov_ratio), T0) * pow(cov_ratio, T1)
-    #L_alt = pow((1-pi01_hat), T00) * pow(pi01_hat, T01) * pow((1-pi11_hat), T10) * pow(pi11_hat, T11)
-    #L_ind = -2 * math.log(L_0/L_alt)
-    #print("L_ind: " + str(L_ind))
+    L_alt = pow((1-pi01_hat), T00) * pow(pi01_hat, T01) * pow((1-pi11_hat), T10) * pow(pi11_hat, T11)
+    L_ind = -2 * math.log(L_0/L_alt)
+    print("L_ind: " + str(L_ind))
 
     # CHRISTOFFERSEN TEST
 
@@ -78,11 +114,14 @@ def christoffersen(column, quantile, alpha):
     print("Kupiec Likelihood: " + str(L_uc))
     print("P-value kupiec: " + str(p_value_kupiec))
 
-    #L_christoffersen = L_uc + L_ind
-    #p_value = 1 - stats.chi2.cdf(L_christoffersen, 2)
+    L_christoffersen = L_uc + L_ind
+    p_value = 1 - stats.chi2.cdf(L_christoffersen, 2)
 
-    #return L_christoffersen, p_value
-    return 0, 0
+    print("Christoffersen likelihood: " + str(L_christoffersen))
+    print("P-value christoffersen: " + str(p_value))
+
+    return L_christoffersen, p_value
+    #return 0, 0
 
 
 def binomial_test(actual_violations, expected_violations, confidence_level):

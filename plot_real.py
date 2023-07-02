@@ -1,4 +1,4 @@
-from extreme.visualization import real_loglog_plot
+from extreme.visualization import real_loglog_plot, real_hill_plot
 from models import model_selection, get_best_crit, model_evaluation, model_selection_real, model_evaluation_real
 from extreme.estimators import evt_estimators, evt_estimators_real
 from extreme import visualization as simviz
@@ -48,7 +48,7 @@ from extension import christoffersen
 #print(model_evaluation_real(model_filename="2023-06-18_22-13-47", result_print=True))
 #print(evt_estimators_real(n_replications=1, distribution="empirical", n_data=2514, params={'evi': 1.0, 'rho': [-3]}))
 
-real_loglog_plot()
+real_hill_plot()
 plt.show()
 #dataset = pd.read_csv("data_real/Volatility.csv")
 #VIX = dataset["HS&P500"].values

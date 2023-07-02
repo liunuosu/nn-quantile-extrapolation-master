@@ -407,12 +407,12 @@ def real_hill_plot(saved=False):
     sns.set_style("whitegrid", {'grid.linestyle': '--'})
     fig, axes = plt.subplots(1, 1, figsize=(15, 7), sharex=False, squeeze=False)  # 3 plots: quantile, var, mse
 
-    dataset = pd.read_csv("data_real/Implied_vol.csv")
-    VIX = dataset["VIX"].values
+    dataset = pd.read_csv("data_real/Volatility.csv")
+    VIX = dataset["HNASDAQ"].values
     VIX = np.expand_dims(VIX, axis=1)
     X_order = np.sort(VIX, axis=0)
     n_data = len(X_order)
-    EXTREME_ALPHA = 1 / n_data
+    EXTREME_ALPHA = 0.05
     evt_estimators = ExtremeQuantileEstimator(X=X_order, alpha=EXTREME_ALPHA)
     anchor_points = np.arange(2, n_data)  # 2, ..., n-1
 
@@ -424,7 +424,7 @@ def real_hill_plot(saved=False):
     #bestK = random_forest_k(np.array(hill_gammas_prime), n_forests=10000, seed=42)
 
     axes[0, 0].plot(anchor_points, hill_gammas, color="black")
-    axes[0, 0].scatter(245, hill_gammas[245], s=200, color="red", marker="^")
+    #axes[0, 0].scatter(1354, hill_gammas[1354], s=200, color="red", marker="o")
     #axes[0, 0].scatter(bestK, hill_gammas[bestK -1], s=200, color="red", marker="^")
     #axes[0, 0].plot(anchor_points_prime, hill_gammas_prime, color="red")
 
